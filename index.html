@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="Tina Mary Holdcroft">
+        <link rel="stylesheet" type="text/css" href="styles/styles.css">
+        <script src="https://kit.fontawesome.com/a83d77d417.js" crossorigin="anonymous"></script>
+		<title>My First Vue App</title> 
+    </head>
+
+    <body>
+        <div id="app" class="container">
+            <div id="app-wrapper">
+                <div>
+                    <h1>Login</h1>
+                    <h3>{{message}}</h3>
+                </div>
+                <form>
+                    <label>Username</label>
+                    <input type="text" placeholder="Username" v-model="username" v-bind:class="{ 'error-border': inputUsernameError}">
+                    <div class="error" v-if="showUsernameError"><i class="fas fa-exclamation-triangle"></i> Invalid username</div>
+                    <label>Password</label>
+                    <input type="password" placeholder="Password" v-model="password"n v-bind:class="{ 'error-border': inputPasswordError }">
+                    <div class="error" v-if="showPasswordError"><i class="fas fa-exclamation-triangle"></i> Invalid password</div>
+                    <div class="btn-container">
+                        <button type="button" v-on:click="login">Log in</button>
+                        <a href="#">Sign up</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="img" class="container"><img src="styles/images/leafs.jpg" alt="leafs"></div>
+		<!-- JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+        <script>
+            (function () {
+                localStorage.setItem('username', 'Tina');
+                localStorage.setItem('password', '@1234')
+            })();
+
+            new Vue ({
+                el: '#app',
+                data: {
+                    message: 'Please enter your login information',
+                    username: '',
+                    password: '',
+                    showUsernameError: false,
+                    showPasswordError: false,
+                    inputUsernameError: false,
+                    inputPasswordError: false,
+                },
+                methods: {
+                    login: function(e) {
+                        if(this.username !== localStorage.getItem("username") || this.password !== localStorage.getItem("password")) {
+                            if(this.username !== localStorage.getItem("username")) {
+                                this.message = 'Please enter correct login details';
+                                this.showUsernameError = true;
+                                this.inputUsernameError = true;
+                            }
+                            else {
+                                this.showUsernameError = false;
+                                this.inputUsernameError = false;
+                            }
+                            if(this.password !== localStorage.getItem("password")) {
+                                this.message = 'Please enter correct login details';
+                                this.showPasswordError = true;
+                                this.inputPasswordError = true;
+                            }
+                            else {
+                                this.showPasswordError = false;
+                                this.inputPasswordError = false;
+                            }
+                        }
+                        else {
+                            this.message = 'Welcome back ' + this.username + '!';
+                            this.showPasswordError = false;
+                            this.inputPasswordError = false;
+                            this.showUsernameError = false;
+                            this.inputUsernameError = false;
+                        }
+                    }
+                }
+            })
+        </script>
+	</body>	
+</html>
